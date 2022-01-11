@@ -13,17 +13,19 @@ class LnScrape {
   String Info = '';
   List<NovelItem> latest = [];
   List<NovelItem> searchRes = [];
+
+  final headers = {
+    HttpHeaders.userAgentHeader: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
+    HttpHeaders.acceptHeader: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    HttpHeaders.acceptLanguageHeader: 'en-US,en;q=0.5',
+    HttpHeaders.acceptEncodingHeader: 'gzip',
+    HttpHeaders.connectionHeader: 'close',
+  };
   
   LnScrape({required this.url});
   
   Future<void> getContent() async {
-    Response response = await get(Uri.https('readlightnovels.net', url), headers: {
-      HttpHeaders.userAgentHeader: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
-      HttpHeaders.acceptHeader: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      HttpHeaders.acceptLanguageHeader: 'en-US,en;q=0.5',
-      HttpHeaders.acceptEncodingHeader: 'gzip',
-      HttpHeaders.connectionHeader: 'close',
-    });
+    Response response = await get(Uri.https('readlightnovels.net', url), headers: headers);
 
     BeautifulSoup bs = BeautifulSoup(response.body);
     List<Bs4Element>? res = bs.find('div', class_: 'chapter-content')?.contents;
@@ -41,13 +43,7 @@ class LnScrape {
 
     List<String> Proxies = ['217.23.69.146:3128'];
 
-    Response response = await get(Uri.https('readlightnovels.net', url), headers: {
-      HttpHeaders.userAgentHeader: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
-      HttpHeaders.acceptHeader: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      HttpHeaders.acceptLanguageHeader: 'en-US,en;q=0.5',
-      HttpHeaders.acceptEncodingHeader: 'gzip',
-      HttpHeaders.connectionHeader: 'close',
-    });
+    Response response = await get(Uri.https('readlightnovels.net', url), headers: headers);
 
     BeautifulSoup bs = BeautifulSoup(response.body);
     List<Bs4Element>? res = bs.find('ul', class_: 'list-chapter')?.findAll('a');
@@ -79,13 +75,7 @@ class LnScrape {
   }
 
   Future<void> getLatest() async {
-    Response response = await get(Uri.https('readlightnovels.net', url), headers: {
-      HttpHeaders.userAgentHeader: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
-      HttpHeaders.acceptHeader: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      HttpHeaders.acceptLanguageHeader: 'en-US,en;q=0.5',
-      HttpHeaders.acceptEncodingHeader: 'gzip',
-      HttpHeaders.connectionHeader: 'close',
-    });
+    Response response = await get(Uri.https('readlightnovels.net', url), headers: headers);
 
     BeautifulSoup bs = BeautifulSoup(response.body);
     
@@ -103,13 +93,7 @@ class LnScrape {
   Future<void> search() async {
     Response response = await get(Uri.https('readlightnovels.net', '/', {
       's' : url,
-    }), headers: {
-      HttpHeaders.userAgentHeader: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
-      HttpHeaders.acceptHeader: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      HttpHeaders.acceptLanguageHeader: 'en-US,en;q=0.5',
-      HttpHeaders.acceptEncodingHeader: 'gzip',
-      HttpHeaders.connectionHeader: 'close',
-    });
+    }), headers: headers);
 
     BeautifulSoup bs = BeautifulSoup(response.body);
 

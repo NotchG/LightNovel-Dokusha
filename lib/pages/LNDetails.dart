@@ -1,7 +1,10 @@
+import 'dart:ui' as ui;
+import 'dart:html' as html;
 import 'package:firstflutterproject/classes/Detail.dart';
 import 'package:firstflutterproject/classes/NovelItem.dart';
 import 'package:firstflutterproject/components/loading.dart';
 import 'package:firstflutterproject/services/ln_scrape.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -216,7 +219,15 @@ class _DetailsState extends State<Details> {
     });
   }
 
+  String createdViewId = 'map_element';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   late WebViewController wvctrl;
+
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +253,8 @@ class _DetailsState extends State<Details> {
       ),
       body: web ?
       Stack(
-        children: [WebView(
+        children: [
+          kIsWeb ? HtmlElementView(viewType: createdViewId) : WebView(
           initialUrl: data['url'],
           javascriptMode: JavascriptMode.unrestricted,
           javascriptChannels: <JavascriptChannel>{
@@ -255,7 +267,9 @@ class _DetailsState extends State<Details> {
             wvctrl.runJavascript("(function(){Flutter.postMessage(window.document.body.innerHTML)})();");
           },
 
-        ),loading ? const Loading() : const SizedBox()]
+        ),
+          loading ? const Loading() : const SizedBox()
+        ]
       ) :
       SingleChildScrollView(
         child: Container(
