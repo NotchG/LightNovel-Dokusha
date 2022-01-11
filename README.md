@@ -1,0 +1,2 @@
+# LightNovel Dokusha
+ 
